@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <button type = "button" onClick ={meteorData.makeCall()}>Click to get data</button>
       <section className = "data-grid">
-      
+      <h3>{meteorData.name}</h3>
       </section>
     </div>
   );
