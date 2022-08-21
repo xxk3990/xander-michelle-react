@@ -5,7 +5,7 @@ import * as meteorData from './call.js'
 function App() {
   return (
     <div className="App">
-      <button type = "button" onClick ={meteorData.makeCall()}>Click to get data</button>
+      <button type = "button" onClick ={() => meteorData.makeCall()}>Click to get data</button>
       <section className = "data-grid">
       
       </section>

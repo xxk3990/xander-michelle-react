@@ -1,7 +1,7 @@
 import './App';
 const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`
 let meteorName, id, nametype, recclass, mass, fall, year, reclat, reclong, geolocation, lat, long;
-const makeCall = () => {
+async function makeCall() {
     const xhr = new XMLHttpRequest();
 
     xhr.onload = handleResponse;
@@ -16,22 +16,24 @@ const handleResponse = (e) => {
     //console.log(e);
     const dataObject = JSON.parse(data);
     console.log(dataObject[10].name);
-    dataObject.forEach(obj => {
-        let temp = {}
-        meteorName = obj.name;
-        id = obj.id;
-        nametype = obj.nametype;
-        recclass = obj.recclass;
-        mass = obj.mass;
-        fall = obj.fall;
-        year = obj.year;
-        reclat = obj.reclat;
-        reclong = obj.reclong;
+    for(let i = 0; i < 3; i++){
+        console.log(dataObject[i].name)
+        meteorName = dataObject[i].name;
+        id = dataObject[i].id;
+        nametype = dataObject[i].nametype;
+        recclass = dataObject[i].recclass;
+        mass = dataObject[i].mass;
+        fall = dataObject[i].fall;
+        year = dataObject[i].year;
+        reclat = dataObject[i].reclat;
+        reclong = dataObject[i].reclong;
         // geolocation = obj.geolocation;
         let dataGrid = document.querySelector(".data-grid");
-        dataGrid.innerHTML = `<h3>${meteorName}</h3>`;
-    })
-    
+        dataGrid.innerHTML = `<h3>${dataObject[i].name}</h3>`;
+        
+    }
+    console.log(dataObject);
+    console.log("Data------" + data)
     // lat = obj.geolocation.latitude;
     // long = obj.geolocation.longitude;
 
