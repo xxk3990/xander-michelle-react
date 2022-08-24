@@ -33,7 +33,7 @@ const handleResponse = (e) => {
         reclong = dataObject[i].reclong;
 
         meteorText = `<div class="meteorText"><h3>${meteorName}</h3>
-            <p>${id}</p></div>`;
+            <p>${id}</p><p>Coordinates: ${reclat}, ${reclong}</p> <p>Year: ${year}</div>`;
         
         // adds content to dataGrid
         dataGrid.innerHTML += meteorText;
