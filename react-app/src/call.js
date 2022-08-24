@@ -8,7 +8,7 @@ async function makeCall() {
     xhr.send();
 }
 
-//parse data
+// parse data
 const handleResponse = (e) => {
     /* 
      * dataGrid - required at the beginning, gets 
@@ -23,7 +23,7 @@ const handleResponse = (e) => {
         id = dataObject[i].id;
         nametype = dataObject[i].nametype;
         recclass = dataObject[i].recclass;
-        mass = dataObject[i].mass;
+        mass = convert(dataObject[i].mass);
         fall = dataObject[i].fall;
         year = dataObject[i].year.substring(0,4);
         reclat = dataObject[i].reclat;
@@ -34,7 +34,7 @@ const handleResponse = (e) => {
                         <p>${id}</p>
                         <p>Coordinates: ${reclat}, ${reclong}</p> 
                         <p>Year: ${year}</p>
-                        <p>Mass: ${mass} grams</p>
+                        <p>Mass: ${mass}</p>
                     </section>`;
         
         // adds content to dataGrid
@@ -43,7 +43,31 @@ const handleResponse = (e) => {
     }
 }
 
-//to access in other files
+/*
+ * convert() adds proper suffix based 
+ * on metric number digit length
+ */
+function convert(num) {
+    
+    let temp = num.toString();
+
+    let lgth = temp.length;
+    console.log(lgth);
+    if (temp.length <= 3) {
+        temp += " grams";
+    }
+    else if (temp.length >= 4 && temp.length <= 6) {
+        temp = temp/1000;
+        temp += " kilos"; 
+    }
+    else if (lgth >= 7 && lgth <= 9) {
+        temp = temp/1000000;
+        temp += " tons";    
+    }
+    return temp;
+}
+
+// to access in other files
 export {
     makeCall
 }
