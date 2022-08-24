@@ -28,7 +28,7 @@ const handleResponse = (e) => {
         recclass = dataObject[i].recclass;
         mass = dataObject[i].mass;
         fall = dataObject[i].fall;
-        year = dataObject[i].year;
+        year = dataObject[i].year.substring(0,4);
         reclat = dataObject[i].reclat;
         reclong = dataObject[i].reclong;
 
