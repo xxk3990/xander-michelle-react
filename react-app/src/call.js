@@ -9,15 +9,19 @@ async function makeCall() {
     xhr.send();
 }
 
+let meteorText;
 
 //parse data
 const handleResponse = (e) => {
-    const data = e.target.response;
-    //console.log(e);
+    /* 
+     * dataGrid - required at the beginning, gets 
+     * populated with currently meteorText
+    */
+    let dataGrid = document.querySelector(".data-grid"); 
+    const data = e.target.responseText;
     const dataObject = JSON.parse(data);
-    console.log(dataObject[10].name);
-    for(let i = 0; i < 3; i++){
-        console.log(dataObject[i].name)
+
+    for(let i = 0; i < dataObject.length; i++){
         meteorName = dataObject[i].name;
         id = dataObject[i].id;
         nametype = dataObject[i].nametype;
@@ -27,33 +31,19 @@ const handleResponse = (e) => {
         year = dataObject[i].year;
         reclat = dataObject[i].reclat;
         reclong = dataObject[i].reclong;
-        // geolocation = obj.geolocation;
-        let dataGrid = document.querySelector(".data-grid");
-        dataGrid.innerHTML = `<h3>${dataObject[i].name}</h3>`;
+
+        meteorText = `<div class="meteorText"><h3>${meteorName}</h3>
+            <p>${id}</p></div>`;
+        
+        // adds content to dataGrid
+        dataGrid.innerHTML += meteorText;
         
     }
-    console.log(dataObject);
-    console.log("Data------" + data)
-    // lat = obj.geolocation.latitude;
-    // long = obj.geolocation.longitude;
-
 }
 
 //to access in other files
 export {
-    makeCall,
-    meteorName, 
-    id, 
-    nametype, 
-    recclass, 
-    mass, 
-    fall, 
-    year, 
-    reclat, 
-    reclong, 
-    geolocation, 
-    // lat,
-    // long,
+    makeCall
 }
 
 /*
