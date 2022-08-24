@@ -1,15 +1,12 @@
 import './App';
 const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`
-let meteorName, id, nametype, recclass, mass, fall, year, reclat, reclong, geolocation, lat, long;
+let meteorName, id, nametype, recclass, mass, fall, year, reclat, reclong, meteorText, geolocation, lat, long;
 async function makeCall() {
     const xhr = new XMLHttpRequest();
-
     xhr.onload = handleResponse;
     xhr.open('GET', url);
     xhr.send();
 }
-
-let meteorText;
 
 //parse data
 const handleResponse = (e) => {
@@ -32,8 +29,13 @@ const handleResponse = (e) => {
         reclat = dataObject[i].reclat;
         reclong = dataObject[i].reclong;
 
-        meteorText = `<div class="meteorText"><h3>${meteorName}</h3>
-            <p>${id}</p><p>Coordinates: ${reclat}, ${reclong}</p> <p>Year: ${year}</div>`;
+        meteorText = `<section class="meteorText">
+                        <h3 id = "meteor-name">${meteorName}</h3>
+                        <p>${id}</p>
+                        <p>Coordinates: ${reclat}, ${reclong}</p> 
+                        <p>Year: ${year}</p>
+                        <p>Mass: ${mass} grams</p>
+                    </section>`;
         
         // adds content to dataGrid
         dataGrid.innerHTML += meteorText;
@@ -45,23 +47,4 @@ const handleResponse = (e) => {
 export {
     makeCall
 }
-
-/*
-"name": "Abee",
-"id": "6",
-"nametype": "Valid",
-"recclass": "EH4",
-"mass": "107000",
-"fall": "Fell",
-"year": "1952-01-01T00:00:00.000",
-"reclat": "54.216670",
-"reclong": "-113.000000",
-"geolocation": {
-"type": "Point",
-"coordinates": [
--113,
-54.21667
-]
-}
-*/
 
