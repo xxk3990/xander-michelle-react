@@ -47,7 +47,7 @@ const handleResponse = (e) => {
  * convert() adds proper suffix based 
  * on metric number digit length
  */
-function convert(num) {
+const convert = (num) => {
     
     let temp = num.toString();
 
