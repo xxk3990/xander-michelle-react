@@ -9,7 +9,7 @@ async function makeCall() {
 }
 
 // parse data
-const handleResponse = (e) => {
+async function handleResponse(e) {
     /* 
      * dataGrid - required at the beginning, gets 
      * populated with currently meteorText
@@ -17,15 +17,19 @@ const handleResponse = (e) => {
     let dataGrid = document.querySelector(".data-grid"); 
     const data = e.target.responseText;
     const dataObject = JSON.parse(data);
-
+    let counter = 0;
     for(let i = 0; i < dataObject.length; i++){
+        
         meteorName = dataObject[i].name;
         id = dataObject[i].id;
         nametype = dataObject[i].nametype;
         recclass = dataObject[i].recclass;
-        mass = convert(dataObject[i].mass);
+        mass = dataObject[i].mass;
+        mass = convert(mass);
         fall = dataObject[i].fall;
-        year = dataObject[i].year.substring(0,4);
+        year = dataObject[i].year;
+        year = year.substring(0,4);
+
         reclat = dataObject[i].reclat;
         reclong = dataObject[i].reclong;
 
@@ -48,8 +52,9 @@ const handleResponse = (e) => {
  * on metric number digit length
  */
 const convert = (num) => {
-    
-    let temp = num.toString();
+    // num, from mass, is inputted
+    // as a string from the JSON
+    let temp = parseFloat(num);
 
     let lgth = temp.length;
     console.log(lgth);
