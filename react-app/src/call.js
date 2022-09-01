@@ -18,20 +18,27 @@ async function handleResponse(e) {
     const data = e.target.responseText;
     const dataObject = JSON.parse(data);
     let counter = 0;
-    for(let i = 0; i < dataObject.length; i++){
+    dataObject.forEach(obj => {
         
-        meteorName = dataObject[i].name;
-        id = dataObject[i].id;
-        nametype = dataObject[i].nametype;
-        recclass = dataObject[i].recclass;
-        mass = dataObject[i].mass;
+        meteorName = obj.name;
+        id = obj.id;
+        nametype = obj.nametype;
+        recclass = obj.recclass;
+        mass = obj.mass;
         mass = convert(mass);
-        fall = dataObject[i].fall;
-        year = dataObject[i].year;
-        year = year.substring(0,4);
+        fall = obj.fall;
+        if(obj.year === undefined) {
+             year = "Year Unknown";
+        } else {
+            year = obj.year;
+            console.log("OOGA BOOGA object year: " + obj.year);
+            year = year.slice(0, 4);
+        }
+        
+       
 
-        reclat = dataObject[i].reclat;
-        reclong = dataObject[i].reclong;
+        reclat = obj.reclat;
+        reclong = obj.reclong;
 
         meteorText = `<section class="meteorText">
                         <h3 id = "meteor-name">${meteorName}</h3>
@@ -44,7 +51,7 @@ async function handleResponse(e) {
         // adds content to dataGrid
         dataGrid.innerHTML += meteorText;
         
-    }
+    })
 }
 
 /*
@@ -57,7 +64,7 @@ const convert = (num) => {
     let temp = parseFloat(num);
 
     let lgth = temp.length;
-    console.log(lgth);
+    // console.log(lgth);
     if (temp.length <= 3) {
         temp += " grams";
     }
