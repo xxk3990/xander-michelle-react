@@ -19,48 +19,51 @@ async function handleResponse(e) {
     let dataGrid = document.querySelector(".data-grid"); 
     const data = e.target.response;
     // const dataObject = JSON.parse(data);
-    meteorData = JSON.parse(data);
-    console.log("meteorData from call.js: ", meteorData);
+   
 
     let counter = 0;
-    meteorData.forEach( obj => {
-        counter += 1;
-        meteorName = obj.name;
-        id = obj.id;
-        nametype = obj.nametype;
-        recclass = obj.recclass;
-        if (obj.mass === undefined) {
-            mass = "Mass Unknown";
-        }
-        else {
-            mass = convert(obj.mass);
-        }
-        fall = obj.fall;
-        if(obj.year === undefined) {
-             year = "Year Unknown";
-        } else {
-            year = obj.year;
-            year = year.slice(0, 4);
-        }
-
-        reclat = obj.reclat;
-        reclong = obj.reclong;
-
-        meteorText = `<section class="meteorText">
-                        <h3 id = "meteor-name">${meteorName}</h3>
-                        <p>${id}</p>
-                        <p>Coordinates: ${reclat}, ${reclong}</p> 
-                        <p>Year: ${year}</p>
-                        <p>Mass: ${mass}</p>
-                    </section>`;
+    meteorData = JSON.parse(data);
+        console.log("meteorData from call.js: ", meteorData);
+        meteorData.forEach(obj => {
+            counter += 1;
+            meteorName = obj.name;
+            id = obj.id;
+            nametype = obj.nametype;
+            recclass = obj.recclass;
+            if (obj.mass === undefined) {
+                mass = "Mass Unknown";
+            }
+            else {
+                mass = convert(obj.mass);
+            }
+            fall = obj.fall;
+            if(obj.year === undefined) {
+                 year = "Year Unknown";
+            } else {
+                year = obj.year;
+                year = year.slice(0, 4);
+            }
+    
+            reclat = obj.reclat;
+            reclong = obj.reclong;
+    
+            meteorText = `<section class="meteorText">
+                            <h3 id = "meteor-name">${meteorName}</h3>
+                            <p>${id}</p>
+                            <p>Coordinates: ${reclat}, ${reclong}</p> 
+                            <p>Year: ${year}</p>
+                            <p>Mass: ${mass}</p>
+                        </section>`;
+            
+            // adds content to dataGrid
+            dataGrid.innerHTML += meteorText;
+            if (counter === 100) {
+                return;
+            }
+        })
+        return meteorData;
+  
         
-        // adds content to dataGrid
-        dataGrid.innerHTML += meteorText;
-        if (counter === 100) {
-            return;
-        }
-    })
-    return meteorData;
 }
 
 /*
@@ -89,8 +92,6 @@ const convert = (num) => {
 }
 
 // to access in other files
-export {
-    meteorData,
-    makeCall
-}
+export {makeCall, meteorData}
+
 
