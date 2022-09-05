@@ -1,6 +1,6 @@
 # xander-michelle-react
 
-# React project using data from https://data.nasa.gov/resource/gh4g-9sfh.json -
+React project using data from https://data.nasa.gov/resource/gh4g-9sfh.json -
 # Meteorite Landing set from NASA's Open Data Portal 
 # (https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh)
 
