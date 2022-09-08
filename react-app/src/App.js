@@ -20,7 +20,7 @@ function App() {
     }).then(response => {
       return response.json();
     }, []).then(data => {
-      setMeteors(data)
+       setMeteors(data)
     })
   }
   useEffect(() => {
@@ -30,6 +30,7 @@ function App() {
   // for pagination, from freecodecamp
   // at top of page as resource 1
   const [currentPage, setCurrentPage] = useState(1);
+  console.log("currentPage:", currentPage);
 
   // data existence validation 
   if(meteors === undefined) {

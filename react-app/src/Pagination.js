@@ -33,6 +33,7 @@ const Pagination = props => {
   };
 
   let lastPage = paginationRange[paginationRange.length - 1];
+
   return (
     <ul
       className={classnames('pagination-container', { [className]: className })}
@@ -42,9 +43,9 @@ const Pagination = props => {
         className={classnames('pagination-item', {
           disabled: currentPage === 1
         })}
-        onClick={onPrevious}
+        onClick = {onPrevious}
       >
-        <div className="arrow left" />
+        <div className="arrow left" >&#8592;</div>
       </li>
       {paginationRange.map(pageNumber => {
          
@@ -55,7 +56,7 @@ const Pagination = props => {
 		
         // Render our Page Pills
         return (
-          <li key={pageNumber}
+          <li key={currentPage}
             className={classnames('pagination-item', {
               selected: pageNumber === currentPage
             })}
@@ -72,7 +73,7 @@ const Pagination = props => {
         })}
         onClick={onNext}
       >
-        <div className="arrow right" />
+        <div className="arrow right">&#8594;</div>
       </li>
     </ul>
   );
