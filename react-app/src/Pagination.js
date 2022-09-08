@@ -39,7 +39,7 @@ const Pagination = props => {
       className={classnames('pagination-container', { [className]: className })}
     >
        {/* Left navigation arrow */}
-      <li key={currentPage}
+      <li //key={currentPage}
         className={classnames('pagination-item', {
           disabled: currentPage === 1
         })}
@@ -56,7 +56,7 @@ const Pagination = props => {
 		
         // Render our Page Pills
         return (
-          <li key={currentPage}
+          <li //key={currentPage}
             className={classnames('pagination-item', {
               selected: pageNumber === currentPage
             })}
@@ -67,7 +67,7 @@ const Pagination = props => {
         );
       })}
       {/*  Right Navigation arrow */}
-      <li key={lastPage}
+      <li //key={lastPage}
         className={classnames('pagination-item', {
           disabled: currentPage === lastPage
         })}
