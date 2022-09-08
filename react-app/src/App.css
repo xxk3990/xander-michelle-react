@@ -45,6 +45,26 @@
   color: #61dafb;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: space-evenly;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.pagination-container li {
+  width: 50px;
+}
+
+.pagination-container li:hover {
+  background-color: #054b93;
+  color: white;
+}
+
+/* .pagination-container {
+  
+} */
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
