@@ -11,11 +11,11 @@ import './App.css';
 import Pagination from './Pagination';
 
 let PageSize = 25;
-function App() {
+export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
-  const fetchCall = async () => {
+  const fetchCall = () => {
     const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`;
-    await fetch(url, {
+    fetch(url, {
         method: 'GET',
     }).then(response => {
       return response.json();
@@ -48,13 +48,7 @@ function App() {
     return (
       /* Hook for pagination from resource 1 */
       <div className="App">
-        <Pagination
-          className="pagination-bar"
-          currentPage={currentPage}
-          totalCount={meteors !== undefined ? meteors.length : 0}
-          pageSize={PageSize}
-          onPageChange={page => setCurrentPage(page)}
-        />
+       
         <section className = "data-grid">
           {currentMeteorData.map(m => {
             return (
@@ -68,6 +62,14 @@ function App() {
             );
           })}
           </section> 
+
+          <Pagination
+          className="pagination-bar"
+          currentPage={currentPage}
+          totalCount={meteors !== undefined ? meteors.length : 0}
+          pageSize={PageSize}
+          onPageChange={page => setCurrentPage(page)}
+        />
         </div>
       );
     } //else
@@ -103,4 +105,4 @@ const convert = (num) => {
     
 }
 
-export default App;
+// export default App;

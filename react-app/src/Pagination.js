@@ -2,6 +2,8 @@ import React from 'react';
 import classnames from 'classnames';
 import { usePagination, DOTS } from './usePagination';
 // import './pagination.scss';
+import './App.css';
+
 const Pagination = props => {
   const {
     onPageChange,
@@ -19,7 +21,8 @@ const Pagination = props => {
     pageSize
   });
 
-  // If there are less than 2 times in pagination range we shall not render the component
+  // If there are less than 2 times in pagination range we shall 
+  // not render the component
   if (currentPage === 0 || paginationRange.length < 2) {
     return null;
   }
@@ -45,7 +48,7 @@ const Pagination = props => {
         })}
         onClick = {onPrevious}
       >
-        <div className="arrow left" >&#8592;</div>
+        <div className="arrow left" ></div>
       </li>
       {paginationRange.map(pageNumber => {
          
@@ -73,7 +76,7 @@ const Pagination = props => {
         })}
         onClick={onNext}
       >
-        <div className="arrow right">&#8594;</div>
+        <div className="arrow right"></div>
       </li>
     </ul>
   );
