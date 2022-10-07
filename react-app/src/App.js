@@ -44,11 +44,17 @@ export default function App() {
       const firstPageIndex = (currentPage - 1) * PageSize;
       const lastPageIndex = firstPageIndex + PageSize;
       return meteors.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
+    }, [currentPage, meteors]);
     return (
       /* Hook for pagination from resource 1 */
       <div className="App">
-       
+          <Pagination
+          className="pagination-bar"
+          currentPage={currentPage}
+          totalCount={meteors !== undefined ? meteors.length : 0}
+          pageSize={PageSize}
+          onPageChange={page => setCurrentPage(page)}
+        />
         <section className = "data-grid">
           {currentMeteorData.map(m => {
             return (
@@ -63,13 +69,7 @@ export default function App() {
           })}
           </section> 
 
-          <Pagination
-          className="pagination-bar"
-          currentPage={currentPage}
-          totalCount={meteors !== undefined ? meteors.length : 0}
-          pageSize={PageSize}
-          onPageChange={page => setCurrentPage(page)}
-        />
+       
         </div>
       );
     } //else

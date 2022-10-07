@@ -52,9 +52,9 @@
   cursor: pointer;
 }
 
-.pagination-container li {
+/* .pagination-container li {
   width: 50px;
-}
+} */
 
 .pagination-container li:hover {
   background-color: #054b93;
