@@ -63,8 +63,7 @@ export default function App() {
                 <p>{m.id}</p>
                 <p>{m.reclat === 0.000000 && m.reclong === 0.000000 ? "Unknown" : `Coordinates: ${m.reclat}, ${m.reclong}`}</p> 
                 {/* geolocation starts here */}
-                <p>{m.reclat === 0.000000 && m.reclong === 0.000000 ? "Unknown" : `Location: ${reverseGeocode(m.reclat, m.reclong)}`}</p>
-                <p>{m.geolocation.map}"Landed in: "</p>
+                <p>Landing Location: {reverseGeocode(m.reclat, m.reclong)}</p>
                 <p>Year: {m.year === undefined ? "Unknown" : m.year.substring(0, 4)}</p>
                 <p>Mass: {convert(m.mass)}</p>
               </section>
@@ -110,9 +109,24 @@ const convert = (num) => {
 
 
 const reverseGeocode = (lat, long) => {
-  const geoUrl = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-  
-
+  if(lat === 0.000000 && long === 0.000000) {
+    return `Landing location unknown, unknown coordinates`
+  } else {
+    const geoUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=978b6815c5e545ba9b0dc6b2cf38f294`
+    fetch(geoUrl, {
+      method: 'GET',
+    }).then(response => {
+      return response.json();
+    }).then(data => {
+      if(data.features[0].properties.city === undefined || data.features[0].properties.country === undefined) {
+        return;
+      } else {
+        console.log(data.features[0].properties.city, data.features[0].properties.country)
+        return `${data.features[0].properties.city}, ${data.features[0].properties.country}`
+      }
+      
+    })
+  }
 }
 
 
