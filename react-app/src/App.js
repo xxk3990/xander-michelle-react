@@ -62,6 +62,9 @@ export default function App() {
                 <h3 id = "meteor-name">{m.name}</h3>
                 <p>{m.id}</p>
                 <p>{m.reclat === 0.000000 && m.reclong === 0.000000 ? "Unknown" : `Coordinates: ${m.reclat}, ${m.reclong}`}</p> 
+                {/* geolocation starts here */}
+                <p>{m.reclat === 0.000000 && m.reclong === 0.000000 ? "Unknown" : `Location: ${reverseGeocode(m.reclat, m.reclong)}`}</p>
+                <p>{m.geolocation.map}"Landed in: "</p>
                 <p>Year: {m.year === undefined ? "Unknown" : m.year.substring(0, 4)}</p>
                 <p>Mass: {convert(m.mass)}</p>
               </section>
@@ -104,5 +107,13 @@ const convert = (num) => {
     }
     
 }
+
+
+const reverseGeocode = (lat, long) => {
+  const geoUrl = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+  
+
+}
+
 
 // export default App;
