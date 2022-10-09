@@ -2,6 +2,7 @@
  * filename - App.js
  * resources: 
    1. https://www.freecodecamp.org/news/build-a-custom-pagination-component-in-react/
+   2. https://www.geoapify.com/reverse-geocoding-api 
  */
 
 import React, { useState, useMemo, useEffect}  from 'react';
@@ -107,6 +108,18 @@ const convert = (num) => {
     
 }
 
+/*
+ * reverseGeogode() takes in meteor latitude + longitude
+ * coordinates, returns city and country of meteor landing 
+ * in the 'Landing Location' part of each meteor tile
+ * 
+ * Uses reverse geocoding from resource 2 ^
+ */
+
+// ---------------------------------------------
+// CURRENT ISSUE - reverse geocoding works in console
+// log but does not display on page 
+// ---------------------------------------------
 
 const reverseGeocode = (lat, long) => {
   if(lat === 0.000000 && long === 0.000000) {
