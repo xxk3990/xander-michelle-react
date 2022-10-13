@@ -11,6 +11,37 @@ import './App.css';
 // import {meteorData, makeCall} from './call.js'
 import Pagination from './Pagination';
 
+
+// each meteor card is responsible for receiving a meteor from the list
+// and looking up the geocoding information about it
+function MeteorCard(props) {
+  const m = props.m;
+  const [meteorLocation, setMeteorLocation] = useState();
+
+  useEffect(() => {
+    reverseGeocode(m.reclat, m.reclong).then(location => {
+      setMeteorLocation(location);
+    });
+  }, [reverseGeocode, m.reclat, m.reclong]);
+
+  return (
+    <section className="meteorText" key={m.id}>
+      <h3 id="meteor-name">{m.name}</h3>
+      <p>{m.id}</p>
+      <p>
+        {m.reclat === 0.0 && m.reclong === 0.0
+          ? 'Unknown'
+          : `Coordinates: ${m.reclat}, ${m.reclong}`}
+      </p>
+      {/* geolocation starts here */}
+      <p>Landing Location: {meteorLocation}</p>
+      <p>Year: {m.year === undefined ? 'Unknown' : m.year.substring(0, 4)}</p>
+      <p>Mass: {convert(m.mass)}</p>
+    </section>
+  );
+}
+
+
 let PageSize = 25;
 export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
@@ -58,17 +89,7 @@ export default function App() {
         />
         <section className = "data-grid">
           {currentMeteorData.map(m => {
-            return (
-              <section className="meteorText" key={m.id}>
-                <h3 id = "meteor-name">{m.name}</h3>
-                <p>{m.id}</p>
-                <p>{m.reclat === 0.000000 && m.reclong === 0.000000 ? "Unknown" : `Coordinates: ${m.reclat}, ${m.reclong}`}</p> 
-                {/* geolocation starts here */}
-                <p>Landing Location: {reverseGeocode(m.reclat, m.reclong)}</p>
-                <p>Year: {m.year === undefined ? "Unknown" : m.year.substring(0, 4)}</p>
-                <p>Mass: {convert(m.mass)}</p>
-              </section>
-            );
+            return <MeteorCard m={m} key={m.id}/>
           })}
           </section> 
 
@@ -126,13 +147,13 @@ const reverseGeocode = (lat, long) => {
     return `Landing location unknown, unknown coordinates`
   } else {
     const geoUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=978b6815c5e545ba9b0dc6b2cf38f294`
-    fetch(geoUrl, {
+    return fetch(geoUrl, {
       method: 'GET',
     }).then(response => {
       return response.json();
     }).then(data => {
       if(data.features[0].properties.city === undefined || data.features[0].properties.country === undefined) {
-        return;
+        return 'Unknown Location'
       } else {
         console.log(data.features[0].properties.city, data.features[0].properties.country)
         return `${data.features[0].properties.city}, ${data.features[0].properties.country}`
