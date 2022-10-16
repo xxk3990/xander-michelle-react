@@ -58,17 +58,7 @@ export default function App() {
         />
         <section className = "data-grid">
           {currentMeteorData.map(m => {
-            return (
-              <section className="meteorText" key={m.id}>
-                <h3 id = "meteor-name">{m.name}</h3>
-                <p>{m.id}</p>
-                <p>{m.reclat === 0.000000 && m.reclong === 0.000000 ? "Unknown" : `Coordinates: ${m.reclat}, ${m.reclong}`}</p> 
-                {/* geolocation starts here */}
-                <p>Landing Location: {reverseGeocode(m.reclat, m.reclong)}</p>
-                <p>Year: {m.year === undefined ? "Unknown" : m.year.substring(0, 4)}</p>
-                <p>Mass: {convert(m.mass)}</p>
-              </section>
-            );
+            return <MeteorCard m={m} key={m.id}/>
           })}
           </section> 
 
@@ -77,6 +67,39 @@ export default function App() {
       );
     } //else
   }// App
+
+
+// each meteor card is responsible for receiving a meteor from the list
+// and looking up the geocoding information about it
+// props = generic react/node term, means properties. Maybe this is wrong lol
+function MeteorCard(props) {
+  const m = props.m;
+  const [meteorLocation, setMeteorLocation] = useState();
+
+  useEffect(() => {
+    reverseGeocode(m.reclat, m.reclong).then(location => {
+      setMeteorLocation(location);
+    });
+  }, [reverseGeocode, m.reclat, m.reclong]);
+
+  return (
+    <section className="meteorText" key={m.id}>
+      <h3 id="meteor-name">{m.name}</h3>
+      <p>{m.id}</p>
+      <p>
+        {/* if lat and long are known, do the coords. 
+        otherwise, return unknown. Ternary operator */}
+        {m.reclat === 0.0 && m.reclong === 0.0
+          ? 'Unknown'
+          : `Coordinates: ${m.reclat}, ${m.reclong}`}
+      </p>
+      {/* geolocation starts here */}
+      <p>Landing Location: {meteorLocation}</p>
+      <p>Year: {m.year === undefined ? 'Unknown' : m.year.substring(0, 4)}</p>
+      <p>Mass: {convert(m.mass)}</p>
+    </section>
+  );
+}
 
 /*
  * convert() adds proper suffix based 
@@ -116,23 +139,18 @@ const convert = (num) => {
  * Uses reverse geocoding from resource 2 ^
  */
 
-// ---------------------------------------------
-// CURRENT ISSUE - reverse geocoding works in console
-// log but does not display on page 
-// ---------------------------------------------
-
 const reverseGeocode = (lat, long) => {
   if(lat === 0.000000 && long === 0.000000) {
     return `Landing location unknown, unknown coordinates`
   } else {
     const geoUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&apiKey=978b6815c5e545ba9b0dc6b2cf38f294`
-    fetch(geoUrl, {
+    return fetch(geoUrl, {
       method: 'GET',
     }).then(response => {
       return response.json();
     }).then(data => {
       if(data.features[0].properties.city === undefined || data.features[0].properties.country === undefined) {
-        return;
+        return "No Geocode";
       } else {
         console.log(data.features[0].properties.city, data.features[0].properties.country)
         return `${data.features[0].properties.city}, ${data.features[0].properties.country}`
