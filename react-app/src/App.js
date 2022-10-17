@@ -10,10 +10,13 @@ import React, { useState, useMemo, useEffect}  from 'react';
 import './App.css';
 // import {meteorData, makeCall} from './call.js'
 import Pagination from './Pagination';
+import SearchBar from './search-sort';
 
 let PageSize = 25;
+let editedMeteors = []; // holds contents of 'meteors' after data editing
 export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
+  
   const fetchCall = () => {
     const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`;
     fetch(url, {
@@ -31,7 +34,6 @@ export default function App() {
   // for pagination, from freecodecamp
   // at top of page as resource 1
   const [currentPage, setCurrentPage] = useState(1);
-  console.log("currentPage:", currentPage);
 
   // data existence validation 
   if(meteors === undefined) {
@@ -56,13 +58,15 @@ export default function App() {
           pageSize={PageSize}
           onPageChange={page => setCurrentPage(page)}
         />
+
+        {/* search bar tings */}
+        <SearchBar/>
+
         <section className = "data-grid">
           {currentMeteorData.map(m => {
             return <MeteorCard m={m} key={m.id}/>
           })}
-          </section> 
-
-       
+          </section>
         </div>
       );
     } //else
