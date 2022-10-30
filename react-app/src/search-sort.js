@@ -25,26 +25,38 @@ const SearchBar = (props) => {
     //      console.log("Data from setMeteors(data):", data)
     //   })
 
-    e.preventDefault();
     console.log("e.target.value: ", e.target.value);
     setSearchInput(e.target.value);
 
 
     if (e.target.value.length > 0) {
-      passedM.filter(el => {
-
-        console.log("el.name.match.searchInput: ", el.name.match(searchInput));
-        console.log("just el: ", el)
-
-        return (
-          <section className="data-grid">
-              <MeteorCard m={el} key={el.id}/>
-          </section>
-        )          
-      });
-
       console.log("AGAIN e.target.value:", e.target.value)
+      return (
+        <section className="data-filtered-grid">
+        {
+          passedM.filter(searchedName => searchedName === searchInput).map(el => {
+            console.log("el: " + el)
+              return <p>{el.value.name}</p> 
+          })
+        }
+        </section>
+      )
+      // passedM.filter(el => {
+
+      //   console.log("el.name.match.searchInput: ", el.name.match(searchInput));
+      //   console.log("just el: ", el)
+
+      //   return (
+          
+              
+          
+      //   )          
+      // });
+
+      
   
+      } else {
+        console.log("e.target.value.length is 0")
       }  // end searchInput
 
       
