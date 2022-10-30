@@ -11,7 +11,7 @@ const SearchBar = () => {
 
   // prevent some issues
   const handleChange = (e) => {
-    const url = `https://data.nasa.gov/resource/gh4g-9sfh.json?name=${searchInput}`;
+    const url = `https://data.nasa.gov/resource/gh4g-9sfh.json?name=${e.target.value}`;
       fetch(url, {
           method: 'GET',
       }).then(response => {
@@ -19,6 +19,7 @@ const SearchBar = () => {
         return response.json();
       }, []).then(data => {
          setMeteors(data)
+         console.log("Data from setMeteors(data):", data)
       })
 
     e.preventDefault();
@@ -26,15 +27,20 @@ const SearchBar = () => {
     setSearchInput(e.target.value);
 
     if (searchInput.length > 0) {
-      meteors.filter((likeName) => {
-        console.log("likeName.name.match.searchInput: ", likeName.name.match(searchInput));
-        return likeName.name.match(searchInput);
+      
+      const filteredMeteors = meteors.filter((el) => {
+        console.log("el.name.match.searchInput: ", el.name.match(searchInput));
+        return el.name.match(searchInput);
         // return <div>{meteors.name.match(searchInput)}</div>
       });
+
     } // end searchInput
     console.log("Search input:", searchInput)
     console.log("meteorsBottomofFile:",meteors)
+
+
     
+
   };
 
   // where you goooooo
