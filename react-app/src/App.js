@@ -156,7 +156,7 @@ const reverseGeocode = (lat, long) => {
       if(data.features[0].properties.city === undefined || data.features[0].properties.country === undefined) {
         return "No Geocode";
       } else {
-        console.log(data.features[0].properties.city, data.features[0].properties.country)
+       // console.log(data.features[0].properties.city, data.features[0].properties.country)
         return `${data.features[0].properties.city}, ${data.features[0].properties.country}`
       }
       

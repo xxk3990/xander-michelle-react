@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import App from './App'
 import MeteorCard from './App.js'
 
+//https://github.com/Saleh-Mubashar/React-Search for some of it
+
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
 
@@ -11,7 +13,7 @@ const SearchBar = () => {
 
   // prevent some issues
   const handleChange = (e) => {
-    const url = `https://data.nasa.gov/resource/gh4g-9sfh.json?name=${e.target.value}`;
+    const url = `https://data.nasa.gov/resource/gh4g-9sfh.json?name=${searchInput}`;
       fetch(url, {
           method: 'GET',
       }).then(response => {
@@ -26,17 +28,30 @@ const SearchBar = () => {
     console.log("e.target.value: ", e.target.value);
     setSearchInput(e.target.value);
 
-    if (searchInput.length > 0) {
+    
       
       const filteredMeteors = meteors.filter((el) => {
-        console.log("el.name.match.searchInput: ", el.name.match(searchInput));
-        return el.name.match(searchInput);
+        if (searchInput !== "") {
+          console.log("el.name.match.searchInput: ", el.name.match(searchInput));
+          console.log("just el: ", el)
+          return el.name.match(searchInput);
+        } else {
+          return el;
+        }
+        
         // return <div>{meteors.name.match(searchInput)}</div>
       });
-
-    } // end searchInput
-    console.log("Search input:", searchInput)
-    console.log("meteorsBottomofFile:",meteors)
+      console.log("Search input:", searchInput)
+      console.log("meteorsBottomofFile:",meteors)
+      console.log("Filtered Meteors: " + filteredMeteors)
+      return (
+        <section className="data-grid">
+          {filteredMeteors.map((fm) => {
+            return <MeteorCard m={fm} key={fm.id}/>
+          })}
+        </section>
+      )  // end searchInput
+    
 
 
     
