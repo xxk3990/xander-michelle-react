@@ -12,8 +12,12 @@ import './App.css';
 import Pagination from './Pagination';
 import SearchBar from './search-sort';
 
+// global meteor array for file reference
+let globalMeteors = []
+
 let PageSize = 25;
 let editedMeteors = []; // holds contents of 'meteors' after data editing
+
 export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
@@ -60,7 +64,10 @@ export default function App() {
         />
 
         {/* search bar tings */}
-        <SearchBar/>
+        <SearchBar 
+          // variable corresponding to meteors array
+          passedM = {meteors}
+        />
 
         <section className = "data-grid">
           {currentMeteorData.map(m => {
@@ -163,6 +170,7 @@ const reverseGeocode = (lat, long) => {
     })
   }
 }
+
 
 
 // export default App;
