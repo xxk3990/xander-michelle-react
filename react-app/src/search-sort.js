@@ -6,10 +6,10 @@ import MeteorCard from './App.js'
 
 const SearchBar = (props) => {
 
-  const [searchInput, setSearchInput] = useState("");
+  
 
   const passedM = props.passedM;
-
+  
   console.log("passedM", passedM)
 
   // prevent some issues
@@ -26,21 +26,68 @@ const SearchBar = (props) => {
     //   })
 
     console.log("e.target.value: ", e.target.value);
-    setSearchInput(e.target.value);
+    
 
 
+    // PROBLEM AREA - Nov 10 2022
     if (e.target.value.length > 0) {
       console.log("AGAIN e.target.value:", e.target.value)
-      return (
-        <section className="data-filtered-grid">
-        {
-          passedM.filter(searchedName => searchedName === searchInput).map(el => {
-            console.log("el: " + el)
-              return <p>{el.value.name}</p> 
-          })
-        }
-        </section>
-      )
+      
+      // for (let m of Object.values (passedM)) {
+        const filteredSearch = passedM.filter(result => {
+          
+          if (result.name !== e.target.value) {
+            console.log("oh my god haha u fail hahaha")
+            return 
+            
+            // console.log("result.name", result.name)
+            // console.log("result HERE", result)
+            // return result.name.includes(e.target.value)
+            
+            
+          } else {
+            console.log("result.name", result.name)
+            console.log("result HERE", result)
+            return result.name.includes(e.target.value)
+            // console.log("oh my god haha u fail hahaha")
+            // return
+          }
+        })
+        return (
+          <section>
+
+          {filteredSearch.map(rand => {
+            console.log("Just seeing what happens. Also rand", rand.name)
+            return <DisplaySearch m={rand} key={rand.id}/>
+          })}
+
+          </section>
+        )
+        
+      // }
+        // passedM.filter(searchedName => {
+          
+        //   console.log("searchInput before if:", searchInput)
+        //   console.log("searchedName before if", searchedName.name)
+        //   if (searchedName.name === searchInput) {
+
+        //     console.log("searchName:", searchedName)
+        //     return searchedName
+        //   }
+        //  }) //.map(el => {
+        //   console.log("el: " + el)
+          
+        //   return (
+        //     <section className="data-filtered-grid">
+        //        <p>{el.value.name}</p>
+        //     </section>
+        //   )
+
+        //   return <p>{el.value.name}</p> 
+        
+      }
+      
+      
       // passedM.filter(el => {
 
       //   console.log("el.name.match.searchInput: ", el.name.match(searchInput));
@@ -55,12 +102,17 @@ const SearchBar = (props) => {
 
       
   
-      } else {
+       else {
         console.log("e.target.value.length is 0")
       }  // end searchInput
 
       
   };
+
+  const DisplaySearch = props => {
+    const m = props.m 
+    return (<p>M.name: {m.name}</p>)
+  }
 
   // where you goooooo
   // useEffect(() => {
@@ -68,10 +120,16 @@ const SearchBar = (props) => {
   //  }, [])
 
   return <section className="searchBar">
-    <input type="search" placeholder="Seach meteors by name" onChange={handleChange} value={searchInput}/>
+    <input type="search" placeholder="Seach meteors by name" onChange={handleChange} />
     {/* <button onClick={handleChange}>Search</button> */}
   </section>
+
+
+
 } // end searchBar
+
+
+
 
 
 // meteorName

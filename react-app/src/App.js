@@ -11,6 +11,9 @@ import './App.css';
 // import {meteorData, makeCall} from './call.js'
 import Pagination from './Pagination';
 import SearchBar from './search-sort';
+import DisplaySearch from './search-sort';
+
+
 
 // global meteor array for file reference
 let globalMeteors = []
@@ -21,6 +24,13 @@ let editedMeteors = []; // holds contents of 'meteors' after data editing
 export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
+  const [searchInput, setSearchInput] = useState("");
+
+  let searchHandler = (param) => {
+    let searching = param.target.value;
+    setSearchInput(searching);
+  }
+
   const fetchCall = () => {
     const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`;
     fetch(url, {
@@ -67,6 +77,11 @@ export default function App() {
         <SearchBar 
           // variable corresponding to meteors array
           passedM = {meteors}
+          onChange = {searchHandler}
+          value = {searchInput}
+
+          // .o0O0o.
+
         />
 
         <section className = "data-grid">
@@ -78,6 +93,8 @@ export default function App() {
       );
     } //else
   }// App
+
+
 
 
 // each meteor card is responsible for receiving a meteor from the list
