@@ -12,6 +12,7 @@ import './App.css';
 import Pagination from './Pagination';
 import SearchBar from './search-sort';
 import DisplaySearch from './search-sort';
+import TextField from "@mui/material/TextField";
 
 
 
@@ -49,6 +50,12 @@ export default function App() {
   // at top of page as resource 1
   const [currentPage, setCurrentPage] = useState(1);
 
+  const currentMeteorData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return meteors.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, meteors]);
+
   // data existence validation 
   if(meteors === undefined) {
     return (
@@ -57,50 +64,63 @@ export default function App() {
       </div>
     )
   } else {
-    const currentMeteorData = useMemo(() => {
-      const firstPageIndex = (currentPage - 1) * PageSize;
-      const lastPageIndex = firstPageIndex + PageSize;
-      return meteors.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, meteors]);
-    return (
-      /* Hook for pagination from resource 1 */
-      <div className="App">
-          <Pagination
-          className="pagination-bar"
-          currentPage={currentPage}
-          totalCount={meteors !== undefined ? meteors.length : 0}
-          pageSize={PageSize}
-          onPageChange={page => setCurrentPage(page)}
-        />
+    
+      console.log("searchInput from App.js", searchInput)
+      // if search is not happening, display all results
+      if (searchInput === "") {
+        return (
+          <div className="App">
+              <Pagination
+              className="pagination-bar"
+              currentPage={currentPage}
+              totalCount={meteors !== undefined ? meteors.length : 0}
+              pageSize={PageSize}
+              onPageChange={page => setCurrentPage(page)}
+            />
+    
+            {/* search bar tings */}
+            <TextField 
+              onChange = {searchHandler}
+            />
+    
+            <section className = "data-grid">
+              {currentMeteorData.map(m => {
+                return <MeteorCard m={m} key={m.id}/>
+              })}
+              </section>
+            </div>
+          );
+      } else {
+        console.log("It's not emptyyyyyyyy")
+        return (<div className="App">
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={meteors !== undefined ? meteors.length : 0}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)}
+              />
+      
+              {/* search bar tings */}
+              <TextField 
+                onChange = {searchHandler}
+              />
 
-        {/* search bar tings */}
-        <SearchBar 
-          // variable corresponding to meteors array
-          passedM = {meteors}
-          onChange = {searchHandler}
-          value = {searchInput}
+              <section className='data-grid'>
+                <DisplaySearch m={meteors} searchedM={searchInput}/>
+              </section>
 
-          // .o0O0o.
+            </div>
+      )}
 
-        />
-
-        <section className = "data-grid">
-          {currentMeteorData.map(m => {
-            return <MeteorCard m={m} key={m.id}/>
-          })}
-          </section>
-        </div>
-      );
+    
+    
+    
     } //else
   }// App
 
-
-
-
-// each meteor card is responsible for receiving a meteor from the list
-// and looking up the geocoding information about it
-// props = generic react/node term, means properties. Maybe this is wrong lol
-function MeteorCard(props) {
+// to reference the results of reverse geocoding in external file
+function ReverseGeocodeComponent(props) {
   const m = props.m;
   const [meteorLocation, setMeteorLocation] = useState();
 
@@ -110,6 +130,18 @@ function MeteorCard(props) {
     });
   }, [reverseGeocode, m.reclat, m.reclong]);
 
+  return <p>Landing location: {meteorLocation}</p>
+
+}
+
+
+
+// each meteor card is responsible for receiving a meteor from the list
+// and looking up the geocoding information about it
+// props = generic react/node term, means properties. Maybe this is wrong lol
+function MeteorCard(props) {
+  const m = props.m;
+  
   return (
     <section className="meteorText" key={m.id}>
       <h3 id="meteor-name">{m.name}</h3>
@@ -122,7 +154,9 @@ function MeteorCard(props) {
           : `Coordinates: ${m.reclat}, ${m.reclong}`}
       </p>
       {/* geolocation starts here */}
-      <p>Landing Location: {meteorLocation}</p>
+      <ReverseGeocodeComponent 
+        m = {m}
+      />
       <p>Year: {m.year === undefined ? 'Unknown' : m.year.substring(0, 4)}</p>
       <p>Mass: {convert(m.mass)}</p>
     </section>
