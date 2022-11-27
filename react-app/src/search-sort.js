@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import App from './App'
 import MeteorCard from './App.js'
-import reverseGeocode from './App.js'
-import convert from './App.js'
-import ReverseGeocodeComponent from './App.js'
 
 //https://github.com/Saleh-Mubashar/React-Search for some of it
 
 const DisplaySearch = (props) => {
 
+  
   // property for meteor array
   const m = props.m;
 
   // property for search input
   const searchedM = props.searchedM
   
+  console.log("this is m:", m)
+
     // PROBLEM AREA - Nov 10 2022
     if (searchedM !== "") {
       console.log("searchedM", searchedM)
@@ -25,6 +25,7 @@ const DisplaySearch = (props) => {
             console.log("oh my god haha u fail hahaha")
             return result
           } else {
+            
             return result.name.includes(searchedM)
           }
         })
@@ -52,10 +53,10 @@ const DisplaySearch = (props) => {
           
       }
       else {
-
         console.log("e.target.value.length is 0")
-        return <p>No results, sad face</p>
       }  // end searchInput
+
+      
   };
 
 
