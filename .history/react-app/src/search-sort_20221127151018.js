@@ -33,8 +33,8 @@ const DisplaySearch = (props) => {
           <section>
           You're searching:
           {filteredSearch.map(rand => {
-            console.log("Just seeing what happens I guess!!!!!!! Also rand", rand.name)
-            return <h2>  {rand.name}</h2>
+            console.log("Just seeing what happens. Also rand", rand.name)
+            return <h1>  {rand.name}</h1>
           })}
 
           </section>
