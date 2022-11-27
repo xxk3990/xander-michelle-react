@@ -28,28 +28,28 @@ const DisplaySearch = (props) => {
             return result.name.includes(searchedM)
           }
         })
-        filteredSearch.map(rand => {
-              console.log("rand:", rand.name)
-                return <p>{rand.name}</p>
-                // <section className="meteorText" key={rand.id}>
-                //   <h3 id="meteor-name">{rand.name}</h3>
-                //   <p>{rand.id}</p>
-                //   <p>
-                //     {/* if lat and long are known, do the coords. 
-                //     otherwise, return unknown. Ternary operator */}
-                //     {rand.reclat === 0.0 && rand.reclong === 0.0
-                //       ? 'Unknown'
-                //       : `Coordinates: ${rand.reclat}, ${rand.reclong}`}
-                //   </p>
-                //   {/* geolocation starts here */}
-                //   <ReverseGeocodeComponent
-                //     m = {rand}
-                //   />
-                //   <p>Year: {rand.year === undefined ? 'Unknown' : rand.year.substring(0, 4)}</p>
-                //   <p>Mass: {convert(rand.mass)}</p>
-                // </section>
-            })
-          
+        <section className='data-grid'>
+          filteredSearch.map(rand => {
+            console.log("rand:", rand.name)
+            return (
+            <section className="meteorText" key={m.id}>
+              <h3 id="meteor-name">{rand.name}</h3>
+              <p>{rand.id}</p>
+              <p>
+                {/* if lat and long are known, do the coords. 
+                otherwise, return unknown. Ternary operator */}
+                {rand.reclat === 0.0 && rand.reclong === 0.0
+                  ? 'Unknown'
+                  : `Coordinates: ${rand.reclat}, ${rand.reclong}`}
+              </p>
+              {/* geolocation starts here */}
+              <ReverseGeocodeComponent
+                m = {rand}
+              />
+              <p>Year: {rand.year === undefined ? 'Unknown' : rand.year.substring(0, 4)}</p>
+              <p>Mass: {convert(rand.mass)}</p>
+            </section>)
+          })
       }
       else {
 
