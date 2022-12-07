@@ -5,27 +5,20 @@
    2. https://www.geoapify.com/reverse-geocoding-api 
  */
 
-import React, { useState, useMemo, useEffect}  from 'react';
+import React, { useState, useMemo, useEffect, useRef}  from 'react';
 // import logo from './logo.svg';
 import './App.css';
 // import {meteorData, makeCall} from './call.js'
 import Pagination from './Pagination';
-import SearchBar from './search-sort';
 import DisplaySearch from './search-sort';
 import TextField from "@mui/material/TextField";
 
-
-
-// global meteor array for file reference
-let globalMeteors = []
-
 let PageSize = 25;
-let editedMeteors = []; // holds contents of 'meteors' after data editing
 
 export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useRef("");
 
   let searchHandler = (param) => {
     let searching = param.target.value;
@@ -106,9 +99,7 @@ export default function App() {
                 onChange = {searchHandler}
               />
 
-              <section className='data-grid'>
-                <DisplaySearch m={meteors} searchedM={searchInput}/>
-              </section>
+              <DisplaySearch m={meteors} searchedM={searchInput}/>
 
             </div>
       )}
@@ -120,7 +111,7 @@ export default function App() {
   }// App
 
 // to reference the results of reverse geocoding in external file
-function ReverseGeocodeComponent(props) {
+export const ReverseGeocodeComponent = (props) => {
   const m = props.m;
   const [meteorLocation, setMeteorLocation] = useState();
 
@@ -130,7 +121,7 @@ function ReverseGeocodeComponent(props) {
     });
   }, [reverseGeocode, m.reclat, m.reclong]);
 
-  return <p>Landing location: {meteorLocation}</p>
+  return <span>Landing location: {meteorLocation}</span>
 
 }
 
@@ -139,7 +130,7 @@ function ReverseGeocodeComponent(props) {
 // each meteor card is responsible for receiving a meteor from the list
 // and looking up the geocoding information about it
 // props = generic react/node term, means properties. Maybe this is wrong lol
-function MeteorCard(props) {
+export const MeteorCard = (props) => {
   const m = props.m;
   
   return (
@@ -167,7 +158,7 @@ function MeteorCard(props) {
  * convert() adds proper suffix based 
  * on metric number digit length
  */
-const convert = (num) => {
+export const convert = (num) => {
     // num, from mass, is inputted
     // as a string from the JSON
     if(num === undefined) {
@@ -201,7 +192,7 @@ const convert = (num) => {
  * Uses reverse geocoding from resource 2 ^
  */
 
-const reverseGeocode = (lat, long) => {
+export const reverseGeocode = (lat, long) => {
   if(lat === 0.000000 && long === 0.000000) {
     return `Landing location unknown, unknown coordinates`
   } else {
