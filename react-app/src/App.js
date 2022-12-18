@@ -5,10 +5,8 @@
    2. https://www.geoapify.com/reverse-geocoding-api 
  */
 
-import React, { useState, useMemo, useEffect, useRef}  from 'react';
-// import logo from './logo.svg';
+import React, { useState, useMemo, useEffect, useRef, createContext, useContext}  from 'react';
 import './App.css';
-// import {meteorData, makeCall} from './call.js'
 import Pagination from './Pagination';
 import DisplaySearch from './search-sort';
 import TextField from "@mui/material/TextField";
@@ -18,7 +16,7 @@ let PageSize = 25;
 export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
-  const [searchInput, setSearchInput] = useRef("");
+  const [searchInput, setSearchInput] = useState("");
 
   let searchHandler = (param) => {
     let searching = param.target.value;
@@ -57,8 +55,8 @@ export default function App() {
       </div>
     )
   } else {
-    
       console.log("searchInput from App.js", searchInput)
+
       // if search is not happening, display all results
       if (searchInput === "") {
         return (
@@ -99,22 +97,19 @@ export default function App() {
                 onChange = {searchHandler}
               />
 
-              <DisplaySearch m={meteors} searchedM={searchInput}/>
+              <DisplaySearch m={meteors} searchInput={searchInput}/>
+              
 
             </div>
       )}
-
-    
-    
-    
     } //else
   }// App
 
 // to reference the results of reverse geocoding in external file
 export const ReverseGeocodeComponent = (props) => {
   const m = props.m;
-  const [meteorLocation, setMeteorLocation] = useState();
-
+  const [meteorLocation, setMeteorLocation] = useState("");
+  
   useEffect(() => {
     reverseGeocode(m.reclat, m.reclong).then(location => {
       setMeteorLocation(location);
@@ -124,7 +119,6 @@ export const ReverseGeocodeComponent = (props) => {
   return <span>Landing location: {meteorLocation}</span>
 
 }
-
 
 
 // each meteor card is responsible for receiving a meteor from the list
@@ -167,7 +161,6 @@ export const convert = (num) => {
       let temp = num.toString();
 
       let lgth = temp.length;
-      // console.log(lgth);
       if (temp.length <= 3) {
           temp += " grams";
       }
@@ -205,14 +198,11 @@ export const reverseGeocode = (lat, long) => {
       if(data.features[0].properties.city === undefined || data.features[0].properties.country === undefined) {
         return "No Geocode";
       } else {
-       // console.log(data.features[0].properties.city, data.features[0].properties.country)
         return `${data.features[0].properties.city}, ${data.features[0].properties.country}`
       }
       
     })
   }
 }
-
-
 
 // export default App;

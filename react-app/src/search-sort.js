@@ -1,54 +1,38 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext, createContext} from 'react'
 import convert from './App.js'
 import reverseGeocode from './App.js'
 import ReverseGeocodeComponent from './App.js'
+import { ReturnedLocationRevGeo } from './App.js'
 
 //https://github.com/Saleh-Mubashar/React-Search for some of it
 
+const SearchContext = createContext();
 
 export default function DisplaySearch(props){
-
-  
   // property for meteor array
   const m = props.m;
 
   // property for search input
-  const searchedM = props.searchedM
+  const searchInput = props.searchInput;
   
-  console.log("this is m:", m)
-
-    if (searchedM !== "") {
-      console.log("searchedM", searchedM)
-      
-        const filteredSearch = m.filter(result => {
-          
-          if (searchedM === "") {
-            console.log("oh my god haha u fail hahaha")
-            return result
-          } else {
-            
-            return result.name.includes(searchedM)
-          }
-        })
-        return (
-          <section>
-          You're searching: {searchedM}
-          {filteredSearch.map(m => {
-            console.log("Rand from filter: ", m)
-            console.log("Just seeing what happens I guess!!!!!!! Also rand", m.name)
-            return <Results m={m} key={m.id}/>
-          })}
-
-          </section>
-        )
-        
-      }
-      else {
-        console.log("e.target.value.length is 0")
-      }  // end searchInput
-
-      
-  };
+  if (searchInput !== "") {
+    const filteredSearch = m.filter(result => {
+        return result.name.includes(searchInput)
+    })
+    return (
+      <section>
+        <h6>You're searching for: {searchInput}</h6>
+        {filteredSearch.map(m => {
+          console.log("Rand from filter: ", m)
+          console.log("Just seeing what happens I guess!!!!!!! Also rand", m.name)
+          return (<Results m={m} key={m.id}/>)
+        })}
+      </section> 
+    ) 
+  } else {
+    console.log("e.target.value.length is 0")
+  }  // end searchInput  
+};
 
 
   // end DisplaySearch
@@ -63,11 +47,8 @@ const Results = (props) => {
   console.log("Props from results: ", props)
 
   if (m === undefined) {
-    return <p>No results, sad face :(</p>
+    return <p>No results, sad face :-| fak</p>
   } else {
-
-    console.log("data: ", m)
-
     return (
       <section className="meteorText" key={m.id}>
         <h3 id="meteor-name">{m.name}</h3>
@@ -82,8 +63,8 @@ const Results = (props) => {
         <span>Year: {m.year === undefined ? 'Unknown' : m.year.substring(0, 4)}</span>
         {/* <span>Mass: {convert(m.mass)}</span>
         {/* geolocation starts here */}
-       {/* PROBLEM AREA - DEC 6 */}
-       <span>Landing location: {reverseGeocode(m.reclat, m.reclong)}</span>
+        {/* PROBLEM AREA - DEC 6 */}
+        <ReverseGeocodeComponent m={m} key={m.id}/>
         
       </section>
     );
