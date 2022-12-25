@@ -17,14 +17,13 @@ export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
   const [searchInput, setSearchInput] = useState("");
-  const centuries = [800, 899, 900, 999, 1000, 1099, 1100, 1199, 1200, 1299, 1300, 1399, 1400, 1499, 1500, 1599, 
-                     1600, 1699, 1700, 1799, 1800, 1899, 1900, 1999, 2000, 2099, 2100, 2199]
+
   let searchHandler = (param) => {
     setCurrentPage(1) // reset pagination whenever searching
     let searching = param.target.value;
     setSearchInput(searching);
   }
-  const [centurySliderValue, setCenturySliderValue] = useState(800); 
+  const [centurySliderValue, setCenturySliderValue] = useState(0); 
 
   let centurySliderHandler = (param) => {
     setCurrentPage(1)
@@ -33,31 +32,9 @@ export default function App() {
   }
 
   const debouncedSearchHandler = useMemo(() => debounce(searchHandler, 250), [])
-  //const memoizedCenturyHandler = useMemo(() => debounce(centurySliderHandler, 0), [])
 
   const searchedMeteors = meteors.filter(meteor => meteor.name.toLowerCase().includes(searchInput.toLowerCase().trim()))
-  let centurySortedMeteors = []
-  if(centurySliderValue > 800) {
-    
-    centurySortedMeteors = meteors.filter(meteor => {
-      console.log("Slider Value: " + centurySliderValue)
-        if(meteor.year === undefined) {
-          return;
-        } else {
-         // console.log("Metor Year: ", meteor.year)
-          const subM = meteor.year.substring(0,4);
-          const parsedSub = parseInt(subM);
-         // console.log("subM:", subM)
-          for(let i = 0; i < centuries.length; i++) {
-            if(parsedSub >= centuries[i] && parsedSub <= centuries[i + 1]) {
-              return parsedSub;
-            }
-          }
-        }
-        
-      })
-  }
-  
+  const centurySortedMeteors = meteors.filter(meteor => parseInt(meteor.year.substring(0,4)) === centurySliderValue)
 
   const fetchCall = () => {
     const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`;
@@ -76,20 +53,14 @@ export default function App() {
   // for pagination, from freecodecamp
   // at top of page as resource 1
   const [currentPage, setCurrentPage] = useState(1);
- // let totalCountValue = 0;
+  let totalCountValue = 0;
   
 
   const currentMeteorData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    //let slicedFilter;
-    // if(searchInput !== "") {
-    //   slicedFilter = searchedMeteors.slice(firstPageIndex, lastPageIndex);
-    // } else if(centurySliderValue > 800) {
-    //   slicedFilter = centurySortedMeteors.slice(firstPageIndex, lastPageIndex);
-    // }
-    //ISSUE 12/25/22 – CANNOT DO MORE TYPES OF FILTERING IF CURRENTMETEORDATA IS SLICING USING SEARCHEDMETEORS.
     return searchedMeteors.slice(firstPageIndex, lastPageIndex);
+   
   }, [currentPage, searchedMeteors]);
 
   // data existence validation 
@@ -108,7 +79,7 @@ export default function App() {
               <Pagination
               className="pagination-bar"
               currentPage={currentPage}
-              totalCount={searchedMeteors.length} //WON'T BE ABLE TO HAVE PAGINATION CHANGE FOR MULTIPLE FILTERS IN CURRENT SETUP
+              totalCount={searchInput === "" ? searchedMeteors.length : centurySortedMeteors.length}
               pageSize={PageSize}
               onPageChange={page => setCurrentPage(page)}
             />
@@ -117,7 +88,7 @@ export default function App() {
             <TextField 
               onChange = {debouncedSearchHandler}
             />
-            <input type="range" min="800" max="2200" step="100" className="century-slider" onChange={centurySliderHandler}/>
+            <input type="range" min="1300" max="2100" step="100" className="century-slider" onChange={centurySliderHandler}/>
             <output>{centurySliderValue}</output>
             <section className = "data-grid">
               {currentMeteorData.map(m => {

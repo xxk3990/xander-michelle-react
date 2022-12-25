@@ -17,8 +17,7 @@ export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
   const [searchInput, setSearchInput] = useState("");
-  const centuries = [800, 899, 900, 999, 1000, 1099, 1100, 1199, 1200, 1299, 1300, 1399, 1400, 1499, 1500, 1599, 
-                     1600, 1699, 1700, 1799, 1800, 1899, 1900, 1999, 2000, 2099, 2100, 2199]
+  const centuries = [800, 899, 900, 999, 1000, 1099, 1100, 1199, 1200, 1299, 1300, 1399, 1400, 1499, 1500, 1599, 1600, 1699, 1700, 1799, 1800, 1899, 1900, 1999, 2000, 2099, 2100, 2199]
   let searchHandler = (param) => {
     setCurrentPage(1) // reset pagination whenever searching
     let searching = param.target.value;
@@ -88,7 +87,6 @@ export default function App() {
     // } else if(centurySliderValue > 800) {
     //   slicedFilter = centurySortedMeteors.slice(firstPageIndex, lastPageIndex);
     // }
-    //ISSUE 12/25/22 – CANNOT DO MORE TYPES OF FILTERING IF CURRENTMETEORDATA IS SLICING USING SEARCHEDMETEORS.
     return searchedMeteors.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, searchedMeteors]);
 
@@ -108,7 +106,7 @@ export default function App() {
               <Pagination
               className="pagination-bar"
               currentPage={currentPage}
-              totalCount={searchedMeteors.length} //WON'T BE ABLE TO HAVE PAGINATION CHANGE FOR MULTIPLE FILTERS IN CURRENT SETUP
+              totalCount={searchedMeteors.length}
               pageSize={PageSize}
               onPageChange={page => setCurrentPage(page)}
             />
