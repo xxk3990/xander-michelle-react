@@ -8,8 +8,8 @@
 import React, { useState, useMemo, useEffect, useRef, createContext, useContext}  from 'react';
 import './App.css';
 import Pagination from './Pagination';
-import DisplaySearch from './search-sort';
 import TextField from "@mui/material/TextField";
+import { debounce } from './utils/debounce';
 
 let PageSize = 25;
 
@@ -19,9 +19,14 @@ export default function App() {
   const [searchInput, setSearchInput] = useState("");
 
   let searchHandler = (param) => {
+    setCurrentPage(1) // reset pagination whenever searching
     let searching = param.target.value;
     setSearchInput(searching);
   }
+
+  const debouncedSearchHandler = useMemo(() => debounce(searchHandler, 250), [])
+
+  const filteredMeteors = meteors.filter(meteor => meteor.name.toLowerCase().includes(searchInput.toLowerCase().trim()))
 
   const fetchCall = () => {
     const url = `https://data.nasa.gov/resource/gh4g-9sfh.json`;
@@ -44,8 +49,8 @@ export default function App() {
   const currentMeteorData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    return meteors.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, meteors]);
+    return filteredMeteors.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, filteredMeteors]);
 
   // data existence validation 
   if(meteors === undefined) {
@@ -57,21 +62,20 @@ export default function App() {
   } else {
       console.log("searchInput from App.js", searchInput)
 
-      // if search is not happening, display all results
-      if (searchInput === "") {
+      
         return (
           <div className="App">
               <Pagination
               className="pagination-bar"
               currentPage={currentPage}
-              totalCount={meteors !== undefined ? meteors.length : 0}
+              totalCount={filteredMeteors.length}
               pageSize={PageSize}
               onPageChange={page => setCurrentPage(page)}
             />
     
             {/* search bar tings */}
             <TextField 
-              onChange = {searchHandler}
+              onChange = {debouncedSearchHandler}
             />
     
             <section className = "data-grid">
@@ -81,27 +85,7 @@ export default function App() {
               </section>
             </div>
           );
-      } else {
-        console.log("It's not emptyyyyyyyy")
-        return (<div className="App">
-              <Pagination
-                className="pagination-bar"
-                currentPage={currentPage}
-                totalCount={meteors !== undefined ? meteors.length : 0}
-                pageSize={PageSize}
-                onPageChange={page => setCurrentPage(page)}
-              />
       
-              {/* search bar tings */}
-              <TextField 
-                onChange = {searchHandler}
-              />
-
-              <DisplaySearch m={meteors} searchInput={searchInput}/>
-              
-
-            </div>
-      )}
     } //else
   }// App
 
