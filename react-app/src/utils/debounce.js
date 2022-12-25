@@ -1,4 +1,4 @@
-function debounce(func, duration) {
+export function debounce(func, duration) {
   let timeout
   return function (...args) {
     const effect = () => {
