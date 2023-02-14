@@ -22,7 +22,7 @@ export default function App() {
     let searching = param.target.value;
     setSearchInput(searching);
   }
-  const [centurySliderValue, setCenturySliderValue] = useState(700); 
+  const [centurySliderValue, setCenturySliderValue] = useState(800); 
 
   let centurySliderHandler = (param) => {
     setCurrentPage(1)
@@ -41,14 +41,8 @@ export default function App() {
         return;
       } else {
         //only check year and slider value of first two entries in the number.
-        /*
-        ISSUE 2/13/23 – Filter works for all centuries except first two. 
-        Fix should be done somewhere in the code below. 
-        Error occurs because the JSON puts a 0 before the century number for the centuries before 1000.
-        0800, 0900
-        */ 
-        const parseSub = parseInt(meteor.year.substring(0,2));
-        const parseSlider = parseInt(centurySliderValue.substring(0,2));
+        const parseSub = parseInt(meteor.year.substring(1,2));
+        const parseSlider = parseInt(centurySliderValue.substring(1,2))
         console.log(parseSub)
         if(parseSub >= parseSlider && parseSub < parseSlider + 1) { //check if year is between slider value and next highest one
           return meteors;
@@ -133,7 +127,7 @@ export default function App() {
             <TextField 
               onChange = {debouncedSearchHandler}
             />
-            <input type="range" min="0700" max="2200" step="100" className="century-slider" onChange={centurySliderHandler}/>
+            <input type="range" min="700" max="2200" step="100" className="century-slider" onChange={centurySliderHandler}/>
             <output>{centurySliderValue}s</output>
             <section className = "data-grid">
               {currentMeteorData.map(m => {

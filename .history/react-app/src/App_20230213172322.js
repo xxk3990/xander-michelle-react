@@ -17,12 +17,14 @@ export default function App() {
   const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
   
   const [searchInput, setSearchInput] = useState("");
+  const centuries = [800, 899, 900, 999, 1000, 1099, 1100, 1199, 1200, 1299, 1300, 1399, 1400, 1499, 1500, 1599, 
+                     1600, 1699, 1700, 1799, 1800, 1899, 1900, 1999, 2000, 2099, 2100, 2199]
   let searchHandler = (param) => {
     setCurrentPage(1) // reset pagination whenever searching
     let searching = param.target.value;
     setSearchInput(searching);
   }
-  const [centurySliderValue, setCenturySliderValue] = useState(700); 
+  const [centurySliderValue, setCenturySliderValue] = useState(800); 
 
   let centurySliderHandler = (param) => {
     setCurrentPage(1)
@@ -40,20 +42,9 @@ export default function App() {
       if(meteor.year === undefined) {
         return;
       } else {
-        //only check year and slider value of first two entries in the number.
-        /*
-        ISSUE 2/13/23 – Filter works for all centuries except first two. 
-        Fix should be done somewhere in the code below. 
-        Error occurs because the JSON puts a 0 before the century number for the centuries before 1000.
-        0800, 0900
-        */ 
-        const parseSub = parseInt(meteor.year.substring(0,2));
-        const parseSlider = parseInt(centurySliderValue.substring(0,2));
-        console.log(parseSub)
-        if(parseSub >= parseSlider && parseSub < parseSlider + 1) { //check if year is between slider value and next highest one
+        if(meteor.year.substring(0,4) >= centurySliderValue || meteor.year.substring(0,4) <= centurySliderValue + 99) {
           return meteors;
         }
-   
       }
     })
     
@@ -100,13 +91,8 @@ export default function App() {
   const currentMeteorData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    if(centurySliderValue > 800) {
-      return centurySortedMeteors.slice(firstPageIndex, lastPageIndex)
-    } else {
-      return searchedMeteors.slice(firstPageIndex, lastPageIndex)
-    }
-    
-  }, [currentPage, searchedMeteors, centurySliderValue]);
+    return searchedMeteors.slice(firstPageIndex, lastPageIndex), centurySortedMeteors.slice(firstPageIndex, lastPageIndex)
+  }, [currentPage, searchedMeteors, centurySortedMeteors]);
 
   // data existence validation 
   if(meteors === undefined) {
@@ -133,8 +119,8 @@ export default function App() {
             <TextField 
               onChange = {debouncedSearchHandler}
             />
-            <input type="range" min="0700" max="2200" step="100" className="century-slider" onChange={centurySliderHandler}/>
-            <output>{centurySliderValue}s</output>
+            <input type="range" min="800" max="2200" step="100" className="century-slider" onChange={centurySliderHandler}/>
+            <output>{centurySliderValue}</output>
             <section className = "data-grid">
               {currentMeteorData.map(m => {
                 return <MeteorCard m={m} key={m.id}/>

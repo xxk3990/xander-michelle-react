@@ -22,7 +22,7 @@ export default function App() {
     let searching = param.target.value;
     setSearchInput(searching);
   }
-  const [centurySliderValue, setCenturySliderValue] = useState(700); 
+  const [centurySliderValue, setCenturySliderValue] = useState(800); 
 
   let centurySliderHandler = (param) => {
     setCurrentPage(1)
@@ -41,12 +41,6 @@ export default function App() {
         return;
       } else {
         //only check year and slider value of first two entries in the number.
-        /*
-        ISSUE 2/13/23 – Filter works for all centuries except first two. 
-        Fix should be done somewhere in the code below. 
-        Error occurs because the JSON puts a 0 before the century number for the centuries before 1000.
-        0800, 0900
-        */ 
         const parseSub = parseInt(meteor.year.substring(0,2));
         const parseSlider = parseInt(centurySliderValue.substring(0,2));
         console.log(parseSub)
