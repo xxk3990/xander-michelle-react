@@ -14,7 +14,7 @@ import { debounce } from './utils/debounce';
 let PageSize = 25;
 
 export default function App() {
-  const [meteors, setMeteors] = useState([]); //makes data global!!!!!!!!!!
+  const [meteorites, setmeteorites] = useState([]); //makes data global!!!!!!!!!!
   
   const [searchInput, setSearchInput] = useState("");
   let searchHandler = (param) => {
@@ -33,29 +33,29 @@ export default function App() {
   const debouncedSearchHandler = useMemo(() => debounce(searchHandler, 250), [])
   //const memoizedCenturyHandler = useMemo(() => debounce(centurySliderHandler, 0), [])
 
-  const searchedMeteors = meteors.filter(meteor => meteor.name.toLowerCase().includes(searchInput.toLowerCase().trim()))
-  let centurySortedMeteors = [];
+  const searchedmeteorites = meteorites.filter(meteorite => meteorite.name.toLowerCase().includes(searchInput.toLowerCase().trim()))
+  let centurySortedmeteorites = [];
   if(centurySliderValue > 800) {
-    centurySortedMeteors = meteors.filter(meteor => {
-      if(meteor.year === undefined) {
+    centurySortedmeteorites = meteorites.filter(meteorite => {
+      if(meteorite.year === undefined) {
         return;
       } else {
-        const parseSub = parseInt(meteor.year.substring(0,4));
+        const parseSub = parseInt(meteorite.year.substring(0,4));
         console.log(parseSub)
         if(centurySliderValue <= parseSub || centurySliderValue <= parseSub + 99) {
-          console.log(meteor.year)
-          return meteors;
+          console.log(meteorite.year)
+          return meteorites;
         }
       }
     })
     
-    //centurySortedMeteors = 
+    //centurySortedmeteorites = 
       // console.log(`Slider Value: ${centurySliderValue}`)
-      //   if(meteor.year === undefined) {
+      //   if(meteorite.year === undefined) {
       //     return;
       //   } else {
-      //    console.log("Metor Year: ", meteor.year)
-      //     const subM = meteor.year.substring(0,4);
+      //    console.log("Metor Year: ", meteorite.year)
+      //     const subM = meteorite.year.substring(0,4);
       //     const parsedSub = parseInt(subM);
       //    console.log("subM:", subM)
       //     for(let i = 0; i < centuries.length; i++) {
@@ -76,7 +76,7 @@ export default function App() {
     }).then(response => {
       return response.json();
     }, []).then(data => {
-       setMeteors(data)
+       setmeteorites(data)
     })
   }
   useEffect(() => {
@@ -89,22 +89,22 @@ export default function App() {
  // let totalCountValue = 0;
   
 
-  const currentMeteorData = useMemo(() => {
+  const currentmeteoriteData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
     if(centurySliderValue > 800) {
-      return centurySortedMeteors.slice(firstPageIndex, lastPageIndex)
+      return centurySortedmeteorites.slice(firstPageIndex, lastPageIndex)
     } else {
-      return searchedMeteors.slice(firstPageIndex, lastPageIndex)
+      return searchedmeteorites.slice(firstPageIndex, lastPageIndex)
     }
     
-  }, [currentPage, searchedMeteors, centurySliderValue]);
+  }, [currentPage, searchedmeteorites, centurySliderValue]);
 
   // data existence validation 
-  if(meteors === undefined) {
+  if(meteorites === undefined) {
     return (
       <div className="App">
-        No meteor data, sad face
+        No meteorite data, sad face
       </div>
     )
   } else {
@@ -116,7 +116,7 @@ export default function App() {
               <Pagination
               className="pagination-bar"
               currentPage={currentPage}
-              totalCount={meteors.length} //WON'T BE ABLE TO HAVE PAGINATION CHANGE FOR MULTIPLE FILTERS IN CURRENT SETUP
+              totalCount={meteorites.length} //WON'T BE ABLE TO HAVE PAGINATION CHANGE FOR MULTIPLE FILTERS IN CURRENT SETUP
               pageSize={PageSize}
               onPageChange={page => setCurrentPage(page)}
             />
@@ -128,8 +128,8 @@ export default function App() {
             <input type="range" min="800" max="2200" step="100" className="century-slider" onChange={centurySliderHandler}/>
             <output>{centurySliderValue - 100}s</output>
             <section className = "data-grid">
-              {currentMeteorData.map(m => {
-                return <MeteorCard m={m} key={m.id}/>
+              {currentmeteoriteData.map(m => {
+                return <meteoriteCard m={m} key={m.id}/>
               })}
               </section>
             </div>
@@ -141,28 +141,28 @@ export default function App() {
 // to reference the results of reverse geocoding in external file
 export const ReverseGeocodeComponent = (props) => {
   const m = props.m;
-  const [meteorLocation, setMeteorLocation] = useState("");
+  const [meteoriteLocation, setmeteoriteLocation] = useState("");
   
   useEffect(() => {
     reverseGeocode(m.reclat, m.reclong).then(location => {
-      setMeteorLocation(location);
+      setmeteoriteLocation(location);
     });
   }, [reverseGeocode, m.reclat, m.reclong]);
 
-  return <span>Landing location: {meteorLocation}</span>
+  return <span>Landing location: {meteoriteLocation}</span>
 
 }
 
 
-// each meteor card is responsible for receiving a meteor from the list
+// each meteorite card is responsible for receiving a meteorite from the list
 // and looking up the geocoding information about it
 // props = generic react/node term, means properties. Maybe this is wrong lol
-export const MeteorCard = (props) => {
+export const meteoriteCard = (props) => {
   const m = props.m;
   
   return (
-    <section className="meteorText" key={m.id}>
-      <h3 id="meteor-name">{m.name}</h3>
+    <section className="meteoriteText" key={m.id}>
+      <h3 id="meteorite-name">{m.name}</h3>
       <p>{m.id}</p>
       <p>
         {/* if lat and long are known, do the coords. 
@@ -211,9 +211,9 @@ export const convert = (num) => {
 }
 
 /*
- * reverseGeogode() takes in meteor latitude + longitude
- * coordinates, returns city and country of meteor landing 
- * in the 'Landing Location' part of each meteor tile
+ * reverseGeogode() takes in meteorite latitude + longitude
+ * coordinates, returns city and country of meteorite landing 
+ * in the 'Landing Location' part of each meteorite tile
  * 
  * Uses reverse geocoding from resource 2 ^
  */
