@@ -43,8 +43,8 @@ export default function App() {
         const yearFirstTwo = meteorite.year.substring(0,2);
         const sliderFirstTwo = parseInt(centurySliderValue.toString().substring(0,2));
         if(yearFirstTwo[0] === '0') { //JSON puts a zero before the years that are before the year 1000, so this needs a check.
-          const parseSecondAndThird = parseInt(meteorite.year.substring(1,3));
-          if(parseSecondAndThird >= sliderFirstTwo && parseSecondAndThird < sliderFirstTwo + 10) { //for this since 
+          const parseSecond = parseInt(yearFirstTwo[1]);
+          if(parseSecond >= sliderFirstTwo && parseSecond < sliderFirstTwo + 1) { //for this since 
             return meteorites;
           } 
         } else {

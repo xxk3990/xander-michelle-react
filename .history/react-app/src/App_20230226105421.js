@@ -34,23 +34,33 @@ export default function App() {
   const debouncedSliderHandler = useMemo(() => debounce(centurySliderHandler, 17), [])
   const searchedMeteorites = meteorites.filter(meteor => meteor.name.toLowerCase().includes(searchInput.toLowerCase().trim()))
   let centurySortedMeteorites = [];
-  if(centurySliderValue >= 800) {
+  if(centurySliderValue > 800) {
     centurySortedMeteorites = meteorites.filter(meteorite => {
       if(meteorite.year === undefined) {
         return;
       } else {
         //only check year and slider value of first two entries in the number.
-        const yearFirstTwo = meteorite.year.substring(0,2);
-        const sliderFirstTwo = parseInt(centurySliderValue.toString().substring(0,2));
-        if(yearFirstTwo[0] === '0') { //JSON puts a zero before the years that are before the year 1000, so this needs a check.
-          const parseSecondAndThird = parseInt(meteorite.year.substring(1,3));
-          if(parseSecondAndThird >= sliderFirstTwo && parseSecondAndThird < sliderFirstTwo + 10) { //for this since 
+        /*
+        ISSUE 2/13/23 – Filter works for all centuries except first two. 
+        Fix should be done somewhere in the code below. 
+        Error occurs because the JSON puts a 0 before the century number for the centuries before 1000.
+        0800, 0900
+        */
+        //let parseYear = 
+        const yearFirst = meteor.year.substring(0,1);
+        if(yearFirst === '8' || yearFirst === '9') {
+          console.log('first', yearFirst);
+          const parseSlider = parseInt(centurySliderValue.toString().substring(0,1));
+          if(yearFirst >= parseSlider && yearFirst < parseSlider + 1) { //check if year is between slider value and next highest one
             return meteorites;
-          } 
+          }
         } else {
-          const parseSub = parseInt(yearFirstTwo);
+          const parseSub = parseInt(meteorite.year.substring(0,2));
+          const sliderFirstTwo = parseInt(centurySliderValue.toString().substring(0,2));
           if(parseSub >= sliderFirstTwo && parseSub < sliderFirstTwo + 1) { //check if year is between slider value and next highest one
+            
             return meteorites;
+            
           }
         }
        
@@ -83,7 +93,7 @@ export default function App() {
   const currentMeteoriteData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    if(centurySliderValue >= 800) {
+    if(centurySliderValue > 800) {
       filteredMs = centurySortedMeteorites;
       return centurySortedMeteorites.slice(firstPageIndex, lastPageIndex)
     } else {
@@ -137,7 +147,7 @@ export default function App() {
             <TextField 
               onChange = {debouncedSearchHandler}
             />
-            <input type="range" min="700" max="2200" step="100" className="century-slider" onChange={debouncedSliderHandler}/>
+            <input type="range" min="800" max="2200" step="100" className="century-slider" onChange={debouncedSliderHandler}/>
             <output>{centurySliderValue} - {centurySliderValue / 100}99 </output> {/* should be good until the year 10000 AD :) */}
             <section className = "data-grid">
               {currentMeteoriteData.map(m => {

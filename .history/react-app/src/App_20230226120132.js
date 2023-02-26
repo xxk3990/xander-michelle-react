@@ -40,11 +40,23 @@ export default function App() {
         return;
       } else {
         //only check year and slider value of first two entries in the number.
+        /*
+        ISSUE 2/13/23 – Filter works for all centuries except first two. 
+        Fix should be done somewhere in the code below. 
+        Error occurs because the JSON puts a 0 before the century number for the centuries before 1000.
+        0800, 0900
+        */
+        //let parseYear = 
         const yearFirstTwo = meteorite.year.substring(0,2);
         const sliderFirstTwo = parseInt(centurySliderValue.toString().substring(0,2));
+        
+       // console.log('yearFirst before if', yearFirst);
         if(yearFirstTwo[0] === '0') { //JSON puts a zero before the years that are before the year 1000, so this needs a check.
-          const parseSecondAndThird = parseInt(meteorite.year.substring(1,3));
-          if(parseSecondAndThird >= sliderFirstTwo && parseSecondAndThird < sliderFirstTwo + 10) { //for this since 
+          const yearSecondAndThird = meteorite.year.substring(1,3);
+          const parseTwoThree = parseInt(yearSecondAndThird)
+          console.log('0 and 1:', yearFirstTwo);
+          console.log('1 and 2:', yearSecondAndThird)
+          if(parseTwoThree >= sliderFirstTwo && parseTwoThree < sliderFirstTwo + 10) {
             return meteorites;
           } 
         } else {
@@ -83,7 +95,7 @@ export default function App() {
   const currentMeteoriteData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    if(centurySliderValue >= 800) {
+    if(centurySliderValue > 800) {
       filteredMs = centurySortedMeteorites;
       return centurySortedMeteorites.slice(firstPageIndex, lastPageIndex)
     } else {
