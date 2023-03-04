@@ -114,9 +114,20 @@ export default function App() {
         />
 
         {/* search bar tings */}
-        <TextField onChange = {debouncedSearchHandler}/>
-        <input type="range" min="700" max="2200" step="100" className="century-slider" onInput={debouncedSliderHandler}/>
-        <output>{centurySliderValue} - {centurySliderValue / 100}99</output>
+        <section id="filters">
+           {/* search bar tings */}
+           <TextField 
+                onChange = {debouncedSearchHandler}
+                className="search-field"
+                placeholder='Search Meteorites'
+            />
+          <section id="year-sort">
+            <h4>Sort by Years</h4>
+            <input type="range" min="700" max="2200" step="100" className="century-slider" onInput={debouncedSliderHandler}/>
+                {/* should be good until the year 10000 AD :) */}
+            <output>{centurySliderValue === 700 ? (`${centurySliderValue} (default)`) : (`${centurySliderValue} - ${centurySliderValue / 100}99`)}</output> 
+          </section>
+        </section>
         <h4>There were no meteorites during the selected timeframe.</h4>
       </div>
       )
@@ -134,13 +145,20 @@ export default function App() {
               pageSize={PageSize}
               onPageChange={page => setCurrentPage(page)}
             />
-
-            {/* search bar tings */}
-            <TextField 
-              onChange = {debouncedSearchHandler}
-            />
-            <input type="range" min="700" max="2200" step="100" className="century-slider" onInput={debouncedSliderHandler}/>
-            <output>{centurySliderValue === 700 ? (`${centurySliderValue} (default)`) : (`${centurySliderValue} - ${centurySliderValue / 100}99`)}</output> {/* should be good until the year 10000 AD :) */}
+            <section id="filters">
+              {/* search bar tings */}
+              <TextField 
+                onChange = {debouncedSearchHandler}
+                className="search-field"
+                placeholder='Search Meteorites'
+              />
+              <section id="year-sort">
+                <h4>Sort by Years</h4>
+                <input type="range" min="700" max="2200" step="100" className="century-slider" onInput={debouncedSliderHandler}/>
+                {/* should be good until the year 10000 AD :) */}
+                <output>{centurySliderValue === 700 ? (`${centurySliderValue} (default)`) : (`${centurySliderValue} - ${centurySliderValue / 100}99`)}</output> 
+              </section>
+            </section>
             <section className = "data-grid">
               {currentMeteoriteData.map(m => {
                

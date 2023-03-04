@@ -9,6 +9,29 @@ body {
   color: #f86a21;
 }
 
+div.search-field { /* TextField becomes a div on page render */
+  border: 1px solid #f86a21;
+}
+
+div.search-field input {
+  color: #f86a21;
+}
+
+div.search-field input::placeholder {
+  color: #f86a21;
+  opacity: 0.75;
+}
+
+#filters {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+#year-sort h4 {
+  margin: 0;
+}
+
 .data-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -149,3 +172,20 @@ body {
   cursor: pointer;
 }
 
+@media screen and (max-width: 600px) {
+  .App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .data-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
