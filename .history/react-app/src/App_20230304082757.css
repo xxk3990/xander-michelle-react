@@ -1,7 +1,7 @@
 body {
   background: url('../public/background.jpeg');
   /* https://commons.m.wikimedia.org/wiki/File:Wormwood_Meteor_of_Revelation_the_Third_Trumpet.jpg */
-  background-size:cover;
+  background-size: contain;
 }
 
 .App {
@@ -14,8 +14,7 @@ body {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
   border: 1px solid white;
-  color: white;
-  background: rgba(248, 106, 33, 0.5);
+  color: #054b93;
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -111,7 +110,7 @@ body {
   cursor: pointer;
 } */
 .pagination-container .pagination-item.selected {
-  color: #f86a21;
+  background-color: rgba(0, 0, 0, 0.08);
 }
 .pagination-container .pagination-item .arrow::before {
   position: relative;
@@ -122,8 +121,8 @@ body {
   display: inline-block;
   width: 0.4em;
   height: 0.4em;
-  border-right: 0.12em solid #f86a21;
-  border-top: 0.12em solid #f86a21;
+  border-right: 0.12em solid rgba(0, 0, 0, 0.87);
+  border-top: 0.12em solid rgba(0, 0, 0, 0.87);
 }
 .pagination-container .pagination-item .arrow.left {
   transform: rotate(-135deg) translate(-50%);
@@ -131,7 +130,6 @@ body {
 }
 .pagination-container .pagination-item .arrow.right {
   transform: rotate(45deg);
-  color: #f86a21;
 }
 .pagination-container .pagination-item.disabled {
   pointer-events: none;

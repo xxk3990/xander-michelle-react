@@ -1,7 +1,7 @@
 body {
   background: url('../public/background.jpeg');
   /* https://commons.m.wikimedia.org/wiki/File:Wormwood_Meteor_of_Revelation_the_Third_Trumpet.jpg */
-  background-size:cover;
+  background-size: contain;
 }
 
 .App {
@@ -15,7 +15,8 @@ body {
   grid-template-rows: repeat(2, 1fr);
   border: 1px solid white;
   color: white;
-  background: rgba(248, 106, 33, 0.5);
+  background: rgba(248, 106, 33);
+  opacity: 0.5;
   margin-left: 20px;
   margin-right: 20px;
 }

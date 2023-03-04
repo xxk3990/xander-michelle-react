@@ -126,7 +126,7 @@ export default function App() {
       
         return (
           <div className="App">
-            <h2>NASA Meteorite Data, 800s-present</h2>
+            <h2>Nasa Meteorite Data, 800s-present</h2>
               <Pagination
               className="pagination-bar"
               currentPage={currentPage}

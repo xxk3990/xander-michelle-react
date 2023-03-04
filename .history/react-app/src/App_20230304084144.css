@@ -137,8 +137,8 @@ body {
   pointer-events: none;
 }
 .pagination-container .pagination-item.disabled .arrow::before {
-  border-right: 0.12em solid rgba(0, 0, 0, 0.43);
-  border-top: 0.12em solid rgba(0, 0, 0, 0.43);
+  border-right: 0.12em solid #f86a21;
+  border-top: 0.12em solid #f86a21;
 }
 .pagination-container .pagination-item.disabled:hover {
   /* background-color: transparent; */

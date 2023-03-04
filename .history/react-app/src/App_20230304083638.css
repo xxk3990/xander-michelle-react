@@ -1,7 +1,7 @@
 body {
   background: url('../public/background.jpeg');
   /* https://commons.m.wikimedia.org/wiki/File:Wormwood_Meteor_of_Revelation_the_Third_Trumpet.jpg */
-  background-size:cover;
+  background-size: contain;
 }
 
 .App {

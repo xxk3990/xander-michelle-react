@@ -104,7 +104,6 @@ export default function App() {
     //no meteors fell during these timeframes, so display notice to user
       return (
       <div className="App">
-        <h2>NASA Meteorite Data, 800s-present</h2>
         <Pagination
         className="pagination-bar"
         currentPage={currentPage}
@@ -126,7 +125,7 @@ export default function App() {
       
         return (
           <div className="App">
-            <h2>NASA Meteorite Data, 800s-present</h2>
+            <h2>Nasa Meteorite Data, 800s-present</h2>
               <Pagination
               className="pagination-bar"
               currentPage={currentPage}
