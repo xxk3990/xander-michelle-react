@@ -10,6 +10,7 @@ import './App.css';
 import Pagination from './Pagination';
 import TextField from "@mui/material/TextField";
 import { debounce } from './utils/debounce';
+import {sx} from 'mui-sx';
 
 let PageSize = 25;
 
@@ -119,7 +120,20 @@ export default function App() {
            <TextField 
                 onChange = {debouncedSearchHandler}
                 className="search-field"
-                placeholder='Search Meteorites'
+                label='Search Meteorites'
+                sx={{
+                  //Below code is for changing color of TextField Labels
+                    "& .MuiFormLabel-root": {
+                      color: '#f86a21'
+                    },
+                    "& .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+                      color: '#f86a21'
+                    },
+                    "& .css-1ff8729-MuiInputBase-root-MuiFilledInput-root.Mui-focused": {
+                      color: '#f86a21'
+                    }
+                }}
+                variant="filled"
             />
           <section id="year-sort">
             <h4>Sort by Years</h4>
@@ -150,7 +164,20 @@ export default function App() {
               <TextField 
                 onChange = {debouncedSearchHandler}
                 className="search-field"
-                placeholder='Search Meteorites'
+                label='Search Meteorites'
+                sx={{
+                  //Below code is for changing color of TextField Labels
+                    "& .MuiFormLabel-root": {
+                      color: '#f86a21'
+                    },
+                    "& .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
+                      color: '#f86a21'
+                    },
+                    "& .css-1ff8729-MuiInputBase-root-MuiFilledInput-root.Mui-focused": {
+                      color: '#f86a21'
+                    }
+                }}
+                variant="filled"
               />
               <section id="year-sort">
                 <h4>Sort by Years</h4>
