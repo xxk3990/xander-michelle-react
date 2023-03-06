@@ -122,14 +122,11 @@ export default function App() {
                 className="search-field"
                 label='Search Meteorites'
                 sx={{
-                  //Below code is for changing color of TextField Labels
+                  //Below code is for changing color of TextField elements
                     "& .MuiFormLabel-root": {
                       color: '#f86a21'
                     },
                     "& .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused": {
-                      color: '#f86a21'
-                    },
-                    "& .css-1ff8729-MuiInputBase-root-MuiFilledInput-root.Mui-focused": {
                       color: '#f86a21'
                     }
                 }}
